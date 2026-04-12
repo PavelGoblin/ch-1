@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HSC ICT প্রথম অধ্যায় — তথ্য ও যোগাযোগ প্রযুক্তি</title>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --barca-blue:#004D98;
+  --barca-red:#A50044;
+  --barca-gold:#EDBB00;
+  --dark:#050B18;
+  --dark2:#0A1528;
+  --dark3:#0F1E38;
+  --card:#0D1A30;
+  --card2:#122040;
+  --border:rgba(0,77,152,0.3);
+  --border2:rgba(165,0,68,0.3);
+  --text:#E8EDF5;
+  --text2:#9BADC8;
+  --text3:#5A7099;
+  --sans:'Hind Siliguri','Inter',sans-serif;
+  --radius:14px;
+  --radius2:10px;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--sans);background:var(--dark);color:var(--text);overflow-x:hidden;line-height:1.75;}
+a{text-decoration:none;color:inherit;}
+::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar-track{background:var(--dark);}
+::-webkit-scrollbar-thumb{background:var(--barca-blue);border-radius:99px;}
+
+/* ===== ANIMATED BG ===== */
+.bg-stripes{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:repeating-linear-gradient(135deg,rgba(0,77,152,0.03) 0px,rgba(0,77,152,0.03) 1px,transparent 1px,transparent 60px);
+}
+.bg-glow{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(ellipse 70% 50% at 20% 20%,rgba(0,77,152,0.08) 0%,transparent 60%),
+             radial-gradient(ellipse 60% 40% at 80% 80%,rgba(165,0,68,0.07) 0%,transparent 55%);
+}
+
+/* ===== SIDEBAR ===== */
+#sidebar{position:fixed;left:0;top:0;bottom:0;width:260px;z-index:900;
+  background:rgba(5,11,24,0.97);border-right:1px solid var(--border);
+  overflow-y:auto;display:flex;flex-direction:column;}
+#sidebar::-webkit-scrollbar{width:3px;}
+#sidebar::-webkit-scrollbar-thumb{background:var(--barca-red);}
+.sb-head{padding:1.25rem;border-bottom:1px solid var(--border);flex-shrink:0;
+  background:linear-gradient(135deg,rgba(0,77,152,0.2),rgba(165,0,68,0.15));}
+.sb-title{font-size:1rem;font-weight:700;color:#fff;margin-bottom:2px;}
+.sb-sub{font-size:0.7rem;color:var(--text3);}
+.sb-badge{display:inline-block;background:linear-gradient(90deg,var(--barca-blue),var(--barca-red));
+  color:#fff;font-size:0.62rem;padding:2px 8px;border-radius:99px;margin-top:6px;}
+.sb-nav{flex:1;padding:0.5rem 0 2rem;}
+.ng{font-size:0.6rem;font-weight:700;letter-spacing:0.12em;color:var(--text3);
+  text-transform:uppercase;padding:0.6rem 1.1rem 0.2rem;}
+.ni{display:flex;align-items:center;gap:7px;padding:6px 1.1rem;
+  font-size:0.78rem;color:var(--text2);border-left:2px solid transparent;
+  transition:all 0.15s;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.ni:hover{color:var(--text);background:rgba(0,77,152,0.1);border-left-color:var(--barca-blue);}
+.ni.active{color:#60A5FA;background:rgba(0,77,152,0.12);border-left-color:var(--barca-blue);font-weight:600;}
+
+/* ===== TOPBAR ===== */
+#main{margin-left:260px;min-height:100vh;position:relative;z-index:1;}
+.topbar{position:sticky;top:0;z-index:800;background:rgba(5,11,24,0.94);
+  backdrop-filter:blur(20px);border-bottom:1px solid var(--border);
+  padding:0 2rem;height:52px;display:flex;align-items:center;justify-content:space-between;}
+.tb-bc{font-size:0.78rem;color:var(--text2);}
+.tb-right{display:flex;align-items:center;gap:0.75rem;}
+.pm-wrap{display:flex;align-items:center;gap:7px;font-size:0.7rem;color:var(--text3);}
+.pm-bar{width:80px;height:3px;background:rgba(255,255,255,0.07);border-radius:99px;overflow:hidden;}
+.pm-fill{height:100%;background:linear-gradient(90deg,var(--barca-blue),var(--barca-red));
+  border-radius:99px;transition:width 0.5s;}
+.ch-badge{background:linear-gradient(90deg,var(--barca-blue),var(--barca-red));
+  color:#fff;font-size:0.68rem;font-weight:700;padding:3px 10px;border-radius:99px;}
+
+/* ===== HERO ===== */
+.hero{min-height:90vh;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;padding:5rem 2.5rem 4rem;position:relative;text-align:center;
+  background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(0,77,152,0.15) 0%,transparent 60%),
+             radial-gradient(ellipse 50% 40% at 80% 80%,rgba(165,0,68,0.1) 0%,transparent 50%);}
+/* Floating stripes pattern like Barca jersey */
+.hero::before{content:'';position:absolute;inset:0;
+  background:repeating-linear-gradient(180deg,rgba(0,77,152,0.04) 0px,rgba(0,77,152,0.04) 30px,
+    rgba(165,0,68,0.03) 30px,rgba(165,0,68,0.03) 60px);pointer-events:none;}
+.hero-badge{display:inline-flex;align-items:center;gap:7px;
+  background:rgba(0,77,152,0.12);border:1px solid rgba(0,77,152,0.4);
+  color:#60A5FA;font-size:0.75rem;font-weight:600;padding:6px 16px;
+  border-radius:99px;margin-bottom:1.5rem;animation:pglow 3s ease-in-out infinite;}
+@keyframes pglow{0%,100%{box-shadow:0 0 0 0 rgba(0,77,152,0.4);}50%{box-shadow:0 0 0 8px rgba(0,77,152,0);}}
+.hero h1{font-size:clamp(2rem,5.5vw,4rem);font-weight:800;line-height:1.1;margin-bottom:0.75rem;}
+.hero h1 .g1{background:linear-gradient(135deg,#fff 30%,#93C5FD);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.hero h1 .g2{background:linear-gradient(135deg,var(--barca-red),#F472B6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.hero-sub{font-size:1rem;color:var(--text2);max-width:560px;margin:0 auto 2rem;line-height:1.7;}
+.hero-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-bottom:2.5rem;}
+.btn{padding:10px 24px;border-radius:var(--radius2);font-size:0.85rem;font-weight:600;
+  cursor:pointer;border:none;transition:all 0.2s;font-family:var(--sans);}
+.btn-p{background:linear-gradient(135deg,var(--barca-blue),#1a6fd4);color:#fff;
+  box-shadow:0 4px 20px rgba(0,77,152,0.4);}
+.btn-p:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,77,152,0.5);}
+.btn-r{background:linear-gradient(135deg,var(--barca-red),#cc0055);color:#fff;
+  box-shadow:0 4px 20px rgba(165,0,68,0.4);}
+.btn-r:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(165,0,68,0.5);}
+.hero-stats{display:flex;gap:2.5rem;padding-top:2rem;border-top:1px solid var(--border);}
+.hs-num{font-size:1.8rem;font-weight:800;background:linear-gradient(135deg,var(--barca-blue),var(--barca-red));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.hs-lbl{font-size:0.68rem;color:var(--text3);margin-top:2px;}
+
+/* Floating code */
+.flt{position:absolute;font-size:0.65rem;color:rgba(0,77,152,0.12);
+  pointer-events:none;animation:fltA 10s ease-in-out infinite;line-height:1.6;font-family:monospace;}
+@keyframes fltA{0%,100%{transform:translateY(0);}50%{transform:translateY(-16px);}}
+
+/* ===== SECTIONS ===== */
+.sec{padding:3rem 2.5rem;border-bottom:1px solid rgba(0,77,152,0.12);scroll-margin-top:52px;}
+.sec:nth-child(even){background:rgba(10,21,40,0.4);}
+.sec-eye{display:inline-flex;align-items:center;gap:5px;
+  background:rgba(165,0,68,0.1);border:1px solid rgba(165,0,68,0.25);
+  color:#F9A8D4;font-size:0.68rem;font-weight:600;padding:3px 10px;
+  border-radius:99px;margin-bottom:0.6rem;letter-spacing:0.05em;}
+.sec-title{font-size:clamp(1.4rem,2.5vw,1.9rem);font-weight:800;line-height:1.2;margin-bottom:0.4rem;}
+.hl-blue{background:linear-gradient(135deg,#60A5FA,#3B82F6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.hl-red{background:linear-gradient(135deg,#F472B6,var(--barca-red));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.sec-desc{color:var(--text2);font-size:0.9rem;max-width:640px;margin-bottom:1.5rem;}
+
+/* ===== GRIDS ===== */
+.g2c{display:grid;grid-template-columns:repeat(auto-fit,minmax(310px,1fr));gap:1.1rem;}
+.g3c{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem;}
+.g4c{display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:0.9rem;}
+
+/* ===== CARDS ===== */
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
+  overflow:hidden;transition:transform 0.3s,box-shadow 0.3s,border-color 0.3s;}
+.card:hover{transform:translateY(-4px) rotateX(2deg);border-color:rgba(0,77,152,0.5);
+  box-shadow:0 16px 50px rgba(0,0,0,0.5),0 0 20px rgba(0,77,152,0.15);}
+.card.red-hover:hover{border-color:rgba(165,0,68,0.5);box-shadow:0 16px 50px rgba(0,0,0,0.5),0 0 20px rgba(165,0,68,0.15);}
+.ch{padding:1rem 1.2rem 0.7rem;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;gap:0.7rem;}
+.ci{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;}
+.ct{font-size:0.95rem;font-weight:700;margin-bottom:2px;}
+.cs{font-size:0.71rem;color:var(--text3);}
+.cb{padding:1rem 1.2rem;}
+.cb p{font-size:0.87rem;color:var(--text2);line-height:1.75;}
+
+/* ===== INFO BOXES ===== */
+.ib{border-radius:var(--radius2);padding:0.85rem 1rem;margin:0.6rem 0;font-size:0.84rem;line-height:1.75;}
+.ib-b{background:rgba(0,77,152,0.1);border-left:3px solid var(--barca-blue);color:#93C5FD;}
+.ib-r{background:rgba(165,0,68,0.1);border-left:3px solid var(--barca-red);color:#FBCFE8;}
+.ib-g{background:rgba(16,185,129,0.08);border-left:3px solid #10B981;color:#6EE7B7;}
+.ib-y{background:rgba(237,187,0,0.08);border-left:3px solid var(--barca-gold);color:#FDE68A;}
+.ib-p{background:rgba(139,92,246,0.08);border-left:3px solid #8B5CF6;color:#C4B5FD;}
+.ib strong{font-weight:700;display:block;margin-bottom:3px;}
+
+/* ===== TABLES ===== */
+.tw{overflow-x:auto;border-radius:var(--radius2);border:1px solid var(--border);margin:0.6rem 0;}
+table{width:100%;border-collapse:collapse;font-size:0.81rem;}
+thead tr{background:linear-gradient(90deg,rgba(0,77,152,0.2),rgba(165,0,68,0.1));}
+th{padding:9px 12px;text-align:left;color:#93C5FD;font-weight:600;font-size:0.76rem;white-space:nowrap;}
+td{padding:8px 12px;border-top:1px solid rgba(255,255,255,0.04);color:var(--text2);}
+tr:hover td{background:rgba(0,77,152,0.06);color:var(--text);}
+td code{font-family:monospace;font-size:0.75rem;background:rgba(255,255,255,0.06);padding:1px 5px;border-radius:3px;}
+
+/* ===== DEFINITION CARDS ===== */
+.def-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:0.8rem;margin-top:0.75rem;}
+.def-card{background:var(--card2);border:1px solid var(--border);border-radius:var(--radius2);
+  padding:1rem;transition:all 0.2s;cursor:default;}
+.def-card:hover{border-color:rgba(0,77,152,0.5);background:rgba(0,77,152,0.08);}
+.def-term{font-size:0.85rem;font-weight:700;color:#60A5FA;margin-bottom:5px;display:flex;align-items:center;gap:6px;}
+.def-text{font-size:0.8rem;color:var(--text2);line-height:1.7;}
+.def-board{font-size:0.65rem;color:var(--barca-gold);margin-top:4px;font-style:italic;}
+
+/* ===== TOPIC BOXES ===== */
+.topic-box{background:linear-gradient(135deg,rgba(0,77,152,0.15),rgba(165,0,68,0.1));
+  border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem;
+  text-align:center;transition:all 0.3s;cursor:pointer;}
+.topic-box:hover{transform:scale(1.03) translateY(-3px);
+  box-shadow:0 12px 40px rgba(0,0,0,0.4),0 0 20px rgba(0,77,152,0.2);
+  border-color:rgba(0,77,152,0.6);}
+.tb-ico{font-size:1.8rem;margin-bottom:0.5rem;
+  filter:drop-shadow(0 0 8px rgba(0,77,152,0.4));}
+.tb-name{font-size:0.88rem;font-weight:700;margin-bottom:3px;}
+.tb-desc{font-size:0.72rem;color:var(--text3);line-height:1.5;}
+
+/* ===== TIMELINE ===== */
+.tl{position:relative;padding-left:2rem;}
+.tl::before{content:'';position:absolute;left:8px;top:4px;bottom:4px;width:2px;
+  background:linear-gradient(to bottom,var(--barca-blue),var(--barca-red));border-radius:99px;}
+.tli{position:relative;margin-bottom:1.1rem;}
+.tld{position:absolute;left:-1.88rem;top:4px;width:13px;height:13px;border-radius:50%;
+  background:var(--barca-blue);border:2px solid var(--dark);}
+.tly{font-size:0.7rem;color:#60A5FA;font-weight:700;margin-bottom:2px;font-family:monospace;}
+.tlt{font-size:0.83rem;color:var(--text2);line-height:1.6;}
+
+/* ===== PILL GRID ===== */
+.pg{display:flex;flex-wrap:wrap;gap:7px;margin:0.6rem 0;}
+.pill{background:rgba(0,77,152,0.12);border:1px solid rgba(0,77,152,0.3);
+  color:#93C5FD;font-size:0.75rem;padding:4px 11px;border-radius:99px;font-weight:500;}
+.pill-r{background:rgba(165,0,68,0.1);border-color:rgba(165,0,68,0.3);color:#FBCFE8;}
+.pill-g{background:rgba(16,185,129,0.1);border-color:rgba(16,185,129,0.3);color:#6EE7B7;}
+.pill-y{background:rgba(237,187,0,0.1);border-color:rgba(237,187,0,0.3);color:#FDE68A;}
+
+/* ===== STEPS ===== */
+.steps{display:flex;flex-direction:column;gap:7px;margin:0.6rem 0;}
+.step{display:flex;gap:10px;align-items:flex-start;background:rgba(255,255,255,0.02);
+  border:1px solid rgba(255,255,255,0.05);border-radius:var(--radius2);padding:9px 11px;transition:border-color 0.2s;}
+.step:hover{border-color:rgba(0,77,152,0.3);}
+.sn{width:24px;height:24px;flex-shrink:0;border-radius:50%;
+  background:linear-gradient(135deg,var(--barca-blue),var(--barca-red));
+  display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;color:#fff;}
+.st{font-size:0.86rem;font-weight:600;margin-bottom:1px;}
+.sd{font-size:0.78rem;color:var(--text2);}
+
+/* ===== MCQ SECTION ===== */
+.mcq-wrap{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1.75rem;}
+.mcq-progress{height:3px;background:rgba(255,255,255,0.06);border-radius:99px;overflow:hidden;margin-bottom:1.25rem;}
+.mcq-pf{height:100%;background:linear-gradient(90deg,var(--barca-blue),var(--barca-red));border-radius:99px;transition:width 0.4s;}
+.mcq-meta{display:flex;justify-content:space-between;font-size:0.75rem;color:var(--text3);margin-bottom:1rem;}
+.mcq-q{font-size:0.95rem;font-weight:700;line-height:1.7;margin-bottom:1.1rem;}
+.mcq-opts{display:flex;flex-direction:column;gap:8px;}
+.mcq-o{display:flex;align-items:center;gap:11px;background:rgba(255,255,255,0.02);
+  border:1px solid rgba(255,255,255,0.07);border-radius:var(--radius2);padding:10px 13px;
+  font-size:0.86rem;cursor:pointer;transition:all 0.2s;color:var(--text2);}
+.mcq-o:hover{border-color:var(--barca-blue);background:rgba(0,77,152,0.1);color:var(--text);}
+.mcq-o.correct{background:rgba(16,185,129,0.12);border-color:#10B981;color:#6EE7B7;}
+.mcq-o.wrong{background:rgba(165,0,68,0.12);border-color:var(--barca-red);color:#FBCFE8;}
+.mcq-o.disabled{pointer-events:none;}
+.ol{width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,0.06);
+  display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;flex-shrink:0;}
+.mcq-fb{margin-top:0.9rem;padding:9px 13px;border-radius:var(--radius2);font-size:0.82rem;line-height:1.6;display:none;}
+.mcq-fb.show{display:block;}
+.fb-c{background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.3);color:#6EE7B7;}
+.fb-w{background:rgba(165,0,68,0.1);border:1px solid rgba(165,0,68,0.25);color:#FBCFE8;}
+.mcq-nav{display:flex;justify-content:space-between;align-items:center;margin-top:1.1rem;}
+
+/* ===== BARCA STRIPE DIVIDER ===== */
+.stripe-div{height:3px;background:linear-gradient(90deg,var(--barca-blue),var(--barca-red),var(--barca-blue));margin:0;}
+
+/* ===== SCROLL TOP ===== */
+#sTop{position:fixed;bottom:1.5rem;right:1.5rem;z-index:500;width:42px;height:42px;border-radius:50%;
+  background:linear-gradient(135deg,var(--barca-blue),var(--barca-red));color:#fff;
+  border:none;cursor:pointer;font-size:1rem;box-shadow:0 4px 18px rgba(0,77,152,0.5);
+  transition:all 0.2s;opacity:0;pointer-events:none;}
+#sTop.show{opacity:1;pointer-events:all;}
+#sTop:hover{transform:translateY(-3px);}
+
+/* ===== MOBILE ===== */
+#hbg{display:none;position:fixed;top:10px;left:10px;z-index:1000;
+  background:var(--card);border:1px solid var(--border);border-radius:7px;
+  padding:7px;cursor:pointer;color:var(--text);font-size:1rem;}
+@media(max-width:900px){
+  #sidebar{transform:translateX(-100%);}#sidebar.open{transform:translateX(0);}
+  #main{margin-left:0;}#hbg{display:flex;align-items:center;justify-content:center;}
+  .sec{padding:2rem 1.25rem;}.hero{padding:4.5rem 1.25rem 3rem;}
+  .hero h1{font-size:1.9rem;}.hero-stats{gap:1.5rem;flex-wrap:wrap;}
+}
+
+/* ===== ANIMATION CLASSES ===== */
+.fade-in{opacity:0;transform:translateY(20px);transition:opacity 0.6s ease,transform 0.6s ease;}
+.fade-in.visible{opacity:1;transform:translateY(0);}
+
+/* IMPORTANT DEF BOX */
+.imp-def{background:linear-gradient(135deg,rgba(0,77,152,0.15),rgba(165,0,68,0.1));
+  border:2px solid rgba(0,77,152,0.4);border-radius:var(--radius);padding:1.25rem;margin:0.75rem 0;}
+.imp-def .q{font-size:0.8rem;color:var(--barca-gold);font-weight:600;margin-bottom:6px;}
+.imp-def .a{font-size:0.88rem;color:var(--text);line-height:1.75;}
+.imp-def .board{font-size:0.65rem;color:var(--text3);margin-top:6px;}
+</style>
+</head>
+<body>
+<div class="bg-stripes"></div>
+<div class="bg-glow"></div>
+<button id="hbg" onclick="toggleSidebar()">☰</button>
+<button id="sTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<!-- SIDEBAR -->
+<aside id="sidebar">
+  <div class="sb-head">
+    <div class="sb-title">⚽ HSC ICT</div>
+    <div class="sb-sub">প্রথম অধ্যায় — সম্পূর্ণ গাইড</div>
+    <span class="sb-badge">Força Barça! 🔵🔴</span>
+  </div>
+  <nav class="sb-nav">
+    <div class="ng">📘 মূল বিষয়</div>
+    <a class="ni" href="#ict-basics">💻 ICT কী ও প্রকারভেদ</a>
+    <a class="ni" href="#global-village">🌍 বিশ্বগ্রাম</a>
+    <a class="ni" href="#services">📡 সেবাসমূহ</a>
+    <a class="ni" href="#ecommerce">🛒 ই-কমার্স ও ই-লার্নিং</a>
+    <div class="ng">🔬 প্রযুক্তি</div>
+    <a class="ni" href="#vr">🥽 ভার্চুয়াল রিয়েলিটি</a>
+    <a class="ni" href="#ai">🤖 কৃত্রিম বুদ্ধিমত্তা</a>
+    <a class="ni" href="#robotics">⚙️ রোবটিক্স</a>
+    <a class="ni" href="#cryosurgery">❄️ ক্রায়োসার্জারি</a>
+    <a class="ni" href="#biometric">🔐 বায়োমেট্রিক</a>
+    <a class="ni" href="#bioinformatics">🧬 বায়োইনফরমেটিক্স</a>
+    <a class="ni" href="#genetic">🧫 জেনেটিক ইঞ্জিনিয়ারিং</a>
+    <a class="ni" href="#nano">⚛️ ন্যানোটেকনোলজি</a>
+    <a class="ni" href="#space">🚀 মহাকাশ অভিযান</a>
+    <div class="ng">📜 নৈতিকতা</div>
+    <a class="ni" href="#ethics">🛡️ নৈতিকতা ও সাইবার ক্রাইম</a>
+    <div class="ng">📝 সৃজনশীল ও MCQ</div>
+    <a class="ni" href="#definitions">📖 গুরুত্বপূর্ণ সংজ্ঞা</a>
+    <a class="ni" href="#mcq">🎯 MCQ প্র্যাকটিস</a>
+  </nav>
+</aside>
+
+<!-- MAIN -->
+<div id="main">
+<div class="topbar">
+  <div class="tb-bc">HSC ICT <span style="color:var(--text3)">›</span> <span id="curSec">প্রথম অধ্যায়</span></div>
+  <div class="tb-right">
+    <div class="pm-wrap"><span id="pctText">0%</span><div class="pm-bar"><div class="pm-fill" id="pmFill" style="width:0%"></div></div></div>
+    <span class="ch-badge">অধ্যায় ১</span>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="hero" id="hero">
+  <div class="flt" style="top:15%;left:3%;animation-delay:0s">বিশ্বগ্রাম
+ই-কমার্স
+ফ্রিল্যান্সিং</div>
+  <div class="flt" style="top:20%;right:4%;animation-delay:2s">Virtual Reality
+AI & Robotics
+Cryosurgery</div>
+  <div class="flt" style="bottom:22%;left:4%;animation-delay:4s">বায়োমেট্রিক
+ন্যানোটেক
+জেনেটিক</div>
+  <div class="flt" style="bottom:28%;right:5%;animation-delay:6s">Marshall McLuhan
+Global Village
+ICT Ethics</div>
+  <div class="hero-badge">⚽ Força Barça! HSC ICT প্রথম অধ্যায় — সম্পূর্ণ প্রস্তুতি</div>
+  <h1><span class="g1">তথ্য ও যোগাযোগ</span><br><span class="g2">প্রযুক্তি: বিশ্ব ও বাংলাদেশ</span></h1>
+  <p class="hero-sub">প্রথম অধ্যায়ের সকল টপিক — সংজ্ঞা, ব্যাখ্যা, বোর্ড প্রশ্ন, MCQ — সব একসাথে। বোর্ড পরীক্ষায় A+ নিশ্চিত করো!</p>
+  <div class="hero-btns">
+    <a href="#global-village" class="btn btn-p">পড়া শুরু করো →</a>
+    <a href="#mcq" class="btn btn-r">MCQ প্র্যাকটিস</a>
+  </div>
+  <div class="hero-stats">
+    <div><div class="hs-num">12+</div><div class="hs-lbl">টপিক</div></div>
+    <div><div class="hs-num">50+</div><div class="hs-lbl">সংজ্ঞা</div></div>
+    <div><div class="hs-num">25</div><div class="hs-lbl">MCQ প্রশ্ন</div></div>
+    <div><div class="hs-num">100%</div><div class="hs-lbl">বোর্ড কাভারেজ</div></div>
+  </div>
+</div>
+
+<div class="stripe-div"></div>
+
+<!-- ===== ICT BASICS ===== -->
+<section class="sec fade-in" id="ict-basics">
+<div class="sec-eye">📘 বিষয়বস্তু</div>
+<h2 class="sec-title">তথ্য ও যোগাযোগ প্রযুক্তি — <span class="hl-blue">ICT কী?</span></h2>
+<p class="sec-desc">Information and Communication Technology — তথ্য সংগ্রহ, প্রক্রিয়াকরণ, সংরক্ষণ ও বিতরণের সমন্বিত প্রযুক্তি।</p>
+<div class="g2c">
+<div class="card">
+  <div class="ch"><div class="ci" style="background:rgba(0,77,152,0.2);">💻</div><div><div class="ct">ICT — সংজ্ঞা ও প্রকারভেদ</div><div class="cs">তথ্য প্রযুক্তি ও যোগাযোগ প্রযুক্তি</div></div></div>
+  <div class="cb">
+    <div class="imp-def">
+      <div class="q">তথ্য প্রযুক্তি (IT) কী?</div>
+      <div class="a">তথ্য সংরক্ষণ, প্রক্রিয়াকরণ এবং ব্যবহার করার প্রযুক্তিকে তথ্য প্রযুক্তি বলে।</div>
+    </div>
+    <div class="imp-def">
+      <div class="q">যোগাযোগ প্রযুক্তি কী?</div>
+      <div class="a">তথ্য এক স্থান থেকে অন্য স্থানে স্থানান্তর করার প্রযুক্তিকে যোগাযোগ প্রযুক্তি বলে। টেলিফোন, ইন্টারনেট, স্যাটেলাইট এর উদাহরণ।</div>
+    </div>
+    <div class="imp-def">
+      <div class="q">তথ্য ও যোগাযোগ প্রযুক্তি (ICT) কী?</div>
+      <div class="a">তথ্য সংগ্রহ, প্রক্রিয়াকরণ, সংরক্ষণ এবং এক স্থান থেকে অন্য স্থানে প্রেরণের যাবতীয় প্রযুক্তির সমন্বয়কে তথ্য ও যোগাযোগ প্রযুক্তি (ICT) বলা হয়।</div>
+    </div>
+    <div class="ib ib-b"><strong>বিকাশে সবচেয়ে বেশি অবদান:</strong> কম্পিউটার ও ইন্টারনেটের সমন্বয় ICT-কে বিপ্লবী করে তুলেছে।</div>
+  </div>
+</div>
+<div class="card red-hover">
+  <div class="ch"><div class="ci" style="background:rgba(165,0,68,0.2);">📊</div><div><div class="ct">ICT-র সুবিধা ও অসুবিধা</div><div class="cs">দ্বিমুখী প্রভাব</div></div></div>
+  <div class="cb">
+    <div class="tw"><table><thead><tr><th>সুবিধা ✅</th><th>অসুবিধা ❌</th></tr></thead><tbody>
+      <tr><td>দ্রুত যোগাযোগ</td><td>সাইবার অপরাধ বৃদ্ধি</td></tr>
+      <tr><td>তথ্যের সহজলভ্যতা</td><td>গোপনীয়তা লঙ্ঘন</td></tr>
+      <tr><td>শিক্ষার মান উন্নয়ন</td><td>বেকারত্ব বৃদ্ধি (স্বয়ংক্রিয়তা)</td></tr>
+      <tr><td>ই-কমার্স ও ব্যবসা</td><td>স্বাস্থ্যগত সমস্যা</td></tr>
+      <tr><td>কর্মসংস্থান সৃষ্টি</td><td>ডিজিটাল আসক্তি</td></tr>
+      <tr><td>দূরবর্তী স্বাস্থ্যসেবা</td><td>ব্যক্তিগত তথ্য চুরি</td></tr>
+    </tbody></table></div>
+  </div>
+</div>
+</div>
+</section>
+
+<!-- ===== GLOBAL VILLAGE ===== -->
+<section class="sec fade-in" id="global-village">
+<div class="sec-eye">🌍 বিশ্বগ্রাম</div>
+<h2 class="sec-title"><span class="hl-blue">বিশ্বগ্রাম</span> — Global Village</h2>
+<p class="sec-desc">মার্শাল ম্যাকলুহান (Marshall McLuhan) ১৯৬২ সালে বিশ্বগ্রামের ধারণা প্রবর্তন করেন। ১৯৭০ সালে এই ধারণা পূর্ণাঙ্গ রূপ নেয়।</p>
+<div class="g2c">
+<div class="card">
+  <div class="ch"><div class="ci" style="background:rgba(0,77,152,0.2);">🌏</div><div><div class="ct">বিশ্বগ্রাম কী?</div><div class="cs">য. বোর্ড ২০১৭, ঢা. বোর্ড ২০২৪</div></div></div>
+  <div class="cb">
+    <div class="imp-def">
+      <div class="q">বিশ্বগ্রাম (Global Village) কী? [য. বোর্ড ২০১৭]</div>
+      <div class="a">বিশ্বগ্রাম হচ্ছে এমন একটি ধারণা যেখানে পৃথিবীর বিভিন্ন অঞ্চলের মানুষ তথ্য ও যোগাযোগ প্রযুক্তি ব্যবহারের মাধ্যমে একটি একক সমাজের ন্যায় বসবাস করে এবং একে অপরের সাথে যোগাযোগ ও সেবা প্রদান করতে পারে।</div>
+    </div>
+    <div class="ib ib-y"><strong>প্রবক্তা:</strong> মার্শাল ম্যাকলুহান (Marshall McLuhan) — তার বিখ্যাত বই "The Gutenberg Galaxy" (1962) এ এই ধারণার প্রথম উল্লেখ।</div>
+    <div class="steps">
+      <div class="step"><div class="sn">১</div><div><div class="st">দূরত্ব বাধা নয়</div><div class="sd">পৃথিবীর যেকোনো প্রান্ত থেকে তাৎক্ষণিক যোগাযোগ সম্ভব</div></div></div>
+      <div class="step"><div class="sn">২</div><div><div class="st">তথ্যের অবাধ প্রবাহ</div><div class="sd">যেকোনো তথ্য মুহূর্তেই সারা বিশ্বে ছড়িয়ে পড়ে</div></div></div>
+      <div class="step"><div class="sn">৩</div><div><div class="st">একক সমাজ</div><div class="sd">ভিন্ন সংস্কৃতির মানুষ একটি অভিন্ন সমাজে পরিণত হচ্ছে</div></div></div>
+    </div>
+  </div>
+</div>
+<div class="card red-hover">
+  <div class="ch"><div class="ci" style="background:rgba(165,0,68,0.2);">🔧</div><div><div class="ct">বিশ্বগ্রাম প্রতিষ্ঠার উপাদান</div><div class="cs">প্রধান ৬টি উপাদান</div></div></div>
+  <div class="cb">
+    <div class="tw"><table><thead><tr><th>উপাদান</th><th>ভূমিকা</th></tr></thead><tbody>
+      <tr><td>🌐 ইন্টারনেট</td><td><strong>সবচেয়ে গুরুত্বপূর্ণ</strong> — বিশ্বব্যাপী সংযোগ</td></tr>
+      <tr><td>💻 কম্পিউটার</td><td>তথ্য প্রক্রিয়াকরণের মূল যন্ত্র</td></tr>
+      <tr><td>📡 স্যাটেলাইট</td><td>দূরবর্তী যোগাযোগ নিশ্চিত করে</td></tr>
+      <tr><td>📱 মোবাইল ফোন</td><td>তাৎক্ষণিক যোগাযোগ মাধ্যম</td></tr>
+      <tr><td>🖥️ সোশ্যাল মিডিয়া</td><td>তথ্য শেয়ারিং প্ল্যাটফর্ম</td></tr>
+      <tr><td>📺 গণমাধ্যম</td><td>বিশ্বব্যাপী তথ্য প্রচার</td></tr>
+    </tbody></table></div>
+    <div class="ib ib-b"><strong>মনে রাখো:</strong> বিশ্বগ্রামের জন্য সবচেয়ে গুরুত্বপূর্ণ উপাদান হলো <strong>ইন্টারনেট</strong>। (MCQ-তে প্রায়ই আসে!)</div>
+  </div>
+</div>
+</div>
+</section>
+
+<!-- ===== SERVICES ===== -->
+<section class="sec fade-in" id="services">
+<div class="sec-eye">📡 সেবাসমূহ</div>
+<h2 class="sec-title">টেলিকনফারেন্সিং, টেলিমেডিসিন, <span class="hl-red">আউটসোর্সিং ও ফ্রিল্যান্সিং</span></h2>
+<div class="def-grid">
+  <div class="def-card">
+    <div class="def-term">📞 টেলিকনফারেন্সিং</div>
+    <div class="def-text">ভিন্ন ভৌগলিক দূরত্বে অবস্থিত ব্যক্তিবর্গ টেলিকমিউনিকেশন প্রযুক্তি ব্যবহার করে যোগাযোগ বা সভা কার্যক্রম পরিচালনা করার কৌশল।</div>
+    <div class="def-board">📌 বারবার বোর্ডে আসে</div>
+  </div>
+  <div class="def-card">
+    <div class="def-term">🎥 ভিডিও কনফারেন্সিং</div>
+    <div class="def-text">ভিন্ন ভৌগলিক দূরত্বে অবস্থিত ব্যক্তিবর্গ টেলিকমিউনিকেশন প্রযুক্তি ব্যবহার করে অডিও ও ভিডিও স্থানান্তরের মাধ্যমে যোগাযোগ বা সভা পরিচালনার কৌশল।</div>
+    <div class="def-board">📌 চ. বোর্ড ২০১৭</div>
+  </div>
+  <div class="def-card">
+    <div class="def-term">🏥 টেলিমেডিসিন</div>
+    <div class="def-text">ভিন্ন ভৌগলিক দূরত্বে অবস্থানরত রোগীকে তথ্য ও যোগাযোগ প্রযুক্তির সাহায্যে বিশেষজ্ঞ চিকিৎসক, রোগ নির্ণয় কেন্দ্রসহ বিশেষায়িত নেটওয়ার্কের মাধ্যমে স্বাস্থ্যসেবা দেওয়া।</div>
+    <div class="def-board">📌 ঢা. দি. য. সি. বোর্ড ২০১৮</div>
+  </div>
+  <div class="def-card">
+    <div class="def-term">💼 আউটসোর্সিং</div>
+    <div class="def-text">কোনো ব্যক্তি বা প্রতিষ্ঠানের কাজ নিজেরা না করে তথ্য ও যোগাযোগ প্রযুক্তির মাধ্যমে তৃতীয় কোনো ব্যক্তি বা প্রতিষ্ঠানের সাহায্যে করিয়ে নেওয়া।</div>
+    <div class="def-board">📌 ঘন ঘন বোর্ডে আসে</div>
+  </div>
+  <div class="def-card">
+    <div class="def-term">🖥️ ফ্রিল্যান্সিং</div>
+    <div class="def-text">কোনো প্রতিষ্ঠানের সাথে দীর্ঘস্থায়ী চুক্তিবদ্ধ না হয়ে, স্বাধীনভাবে নিজের দক্ষতার ভিত্তিতে ICT-র মাধ্যমে কোনো ব্যক্তি বা প্রতিষ্ঠানের চাহিদা অনুযায়ী কাজ করা।</div>
+    <div class="def-board">📌 MCQ-তে বারবার আসে</div>
+  </div>
+  <div class="def-card">
+    <div class="def-term">🏠 স্মার্ট হোম</div>
+    <div class="def-text">এমন একটি বাসস্থান যেখানে রিমোট কন্ট্রোলিং-এর সাহায্যে যেকোনো স্থান থেকে সিকিউরিটি, হিটিং, কুলিং, লাইটিং সিস্টেম নিয়ন্ত্রণ করা যায়।</div>
+    <div class="def-board">📌 ব. বোর্ড ২০২৩, চ. বোর্ড ২০১৯</div>
+  </div>
+  <div class="def-card">
+    <div class="def-term">🏢 অফিস অটোমেশন</div>
+    <div class="def-text">তথ্য ও যোগাযোগ প্রযুক্তির মাধ্যমে অফিসের সার্বিক কার্যক্রম দক্ষতার সাথে ডিজিটাল পদ্ধতিতে সম্পন্ন করার প্রযুক্তিনির্ভর কার্যক্রম।</div>
+    <div class="def-board">📌 গুরুত্বপূর্ণ</div>
+  </div>
+  <div class="def-card">
+    <div class="def-term">📧 ই-মেইল</div>
+    <div class="def-text">ইলেকট্রনিক যন্ত্রপাতি ব্যবহার করে ইন্টারনেটের মাধ্যমে নির্ভরযোগ্যভাবে বার্তা আদান-প্রদান করার পদ্ধতি।</div>
+    <div class="def-board">📌 মা. বোর্ড ২০১৭</div>
+  </div>
+</div>
+</section>
+
+<!-- ===== E-COMMERCE & E-LEARNING ===== -->
+<section class="sec fade-in" id="ecommerce">
+<div class="sec-eye">🛒 ডিজিটাল সেবা</div>
+<h2 class="sec-title">ই-কমার্স, <span class="hl-red">ই-লার্নিং</span> ও ডিজিটাল বাংলাদেশ</h2>
+<div class="g2c">
+<div class="card">
+  <div class="ch"><div class="ci" style="background:rgba(0,77,152,0.2);">🛒</div><div><div class="ct">ই-কমার্স</div><div class="cs">ব. বোর্ড ২০২৩, দি. বোর্ড ২০১৯, কু. বোর্ড ২০১৭</div></div></div>
+  <div class="cb">
+    <div class="imp-def">
+      <div class="q">ই-কমার্স কী?</div>
+      <div class="a">ই-কমার্স একটি বাণিজ্য ক্ষেত্র যেখানে ইন্টারনেট বা অন্য কোনো নেটওয়ার্কের মাধ্যমে পণ্য বা সেবা ক্রয়-বিক্রয় বা লেনদেন হয়ে থাকে।</div>
+      <div class="board">📌 ব. বোর্ড ২০২৩, দি. বোর্ড ২০১৯, কু. বোর্ড ২০১৭, রা. বোর্ড ২০১৬</div>
+    </div>
+    <div class="pg">
+      <span class="pill">B2B</span><span class="pill">B2C</span><span class="pill">C2C</span>
+      <span class="pill">C2B</span><span class="pill">মোবাইল ব্যাংকিং</span>
+    </div>
+    <div class="ib ib-b"><strong>উদাহরণ:</strong> Daraz, Chaldal, Pathao, bKash — সবই ই-কমার্সের অংশ।</div>
+  </div>
+</div>
+<div class="card red-hover">
+  <div class="ch"><div class="ci" style="background:rgba(165,0,68,0.2);">📚</div><div><div class="ct">ই-লার্নিং / দূরশিক্ষণ</div><div class="cs">ঢা. বোর্ড ২০২৪, দি. বোর্ড ২০২৪</div></div></div>
+  <div class="cb">
+    <div class="imp-def">
+      <div class="q">দূরশিক্ষণ / ই-লার্নিং কী? [ঢা. বোর্ড ২০২৪]</div>
+      <div class="a">দূরশিক্ষণ বা ই-লার্নিং হলো এমন একটি ধারণা যেখানে একজন শিক্ষার্থী অনলাইনে ক্লাস ও পরীক্ষা দিয়ে নিজেকে যাচাই করতে পারে। শিক্ষকও ঘরে বসেই শিক্ষা দান করতে পারে।</div>
+      <div class="board">📌 ঢা. বোর্ড ২০২৪, দি. বোর্ড ২০২৪</div>
+    </div>
+    <div class="ib ib-g"><strong>সুবিধা:</strong> যেকোনো স্থান থেকে পড়াশোনা · সময়মতো শিক্ষা · ব্যয় সাশ্রয় · বিশেষজ্ঞ শিক্ষকের সুবিধা · পুনরায় দেখার সুযোগ</div>
+    <div class="ib ib-r"><strong>অসুবিধা:</strong> ইন্টারনেট নির্ভরতা · সামাজিক যোগাযোগ কম · মনোযোগ ধরে রাখা কঠিন</div>
+  </div>
+</div>
+</div>
+</section>
+
+<!-- ===== VIRTUAL REALITY ===== -->
+<section class="sec fade-in" id="vr">
+<div class="sec-eye">🥽 প্রযুক্তি</div>
+<h2 class="sec-title"><span class="hl-blue">ভার্চুয়াল রিয়েলিটি</span> — Virtual Reality</h2>
+<p class="sec-desc">কম্পিউটার সিমুলেশনের সাহায্যে তৈরি কৃত্রিম ও ত্রিমাত্রিক পরিবেশ — বাস্তব মনে হলেও বাস্তব নয়!</p>
+<div class="g2c">
+<div class="card">
+  <div class="ch"><div class="ci" style="background:rgba(0,77,152,0.2);">🥽</div><div><div class="ct">ভার্চুয়াল রিয়েলিটি কী?</div><div class="cs">রা. বোর্ড ২০২৪, ২০২৩</div></div></div>
+  <div class="cb">
+    <div class="imp-def">
+      <div class="q">ভার্চুয়াল রিয়েলিটি কী? [রা. বোর্ড ২০২৪]</div>
+      <div class="a">ভার্চুয়াল রিয়েলিটি হলো কম্পিউটার সিমুলেশনের সাহায্যে তৈরি কৃত্রিম ও ত্রিমাত্রিক পরিবেশ যা ব্যবহারকারীর কাছে সত্য ও বাস্তব বলে মনে হয়।</div>
+      <div class="board">📌 রা. বোর্ড ২০২৪ ও ২০২৩</div>
+    </div>
+    <div class="tw"><table><thead><tr><th>বিষয়</th><th>তথ্য</th></tr></thead><tbody>
+      <tr><td>মাত্রা</td><td><strong>ত্রিমাত্রিক (3D)</strong></td></tr>
+      <tr><td>প্রযুক্তি</td><td>কম্পিউটার সিমুলেশন</td></tr>
+      <tr><td>ডিভাইস</td><td>HMD (Head Mounted Display)</td></tr>
+      <tr><td>অনুভূতি</td><td>বাস্তবের মতো কিন্তু কৃত্রিম</td></tr>
+    </tbody></table></div>
+    <div class="ib ib-y"><strong>HMD কী?</strong> ভার্চুয়াল রিয়েলিটিতে ব্যবহারকারীকে বাস্তবের কাছাকাছি বোঝানোর জন্য বিশেষভাবে তৈরি চশমা বা হেলমেটকে HMD (Head Mounted Display) বলা হয়।</div>
+  </div>
+</div>
+<div class="card red-hover">
+  <div class="ch"><div class="ci" style="background:rgba(165,0,68,0.2);">🌐</div><div><div class="ct">ব্যবহার, প্রকার ও সম্পর্কিত ধারণা</div><div class="cs">Simulation, AR</div></div></div>
+  <div class="cb">
+    <div class="imp-def">
+      <div class="q">সিমুলেশন কী?</div>
+      <div class="a">বাস্তবে কোনো কাজ করার পূর্বে তা কম্পিউটারে কৃত্রিমভাবে প্রয়োগ করে দেখাকে সিমুলেশন বলে।</div>
+    </div>
+    <div class="imp-def">
+      <div class="q">অগমেন্টেড রিয়েলিটি (AR) কী?</div>
+      <div class="a">ভার্চুয়াল রিয়েলিটির নতুন রূপ, যেখানে বাস্তব জগতের সাথে ভার্চুয়াল জগতের একধরনের সংমিশ্রণ ঘটানো হয়।</div>
+    </div>
+    <div class="ib ib-b"><strong>ব্যবহার ক্ষেত্র:</strong></div>
+    <div class="pg">
+      <span class="pill">চিকিৎসা প্রশিক্ষণ</span><span class="pill">সামরিক</span>
+      <span class="pill">গেমিং</span><span class="pill">শিক্ষা</span>
+      <span class="pill">স্থাপত্য</span><span class="pill">বিমান প্রশিক্ষণ</span>
+    </div>
+    <div class="ib ib-r"><strong>MCQ টিপস:</strong> ভার্চুয়াল রিয়েলিটিতে <strong>ত্রিমাত্রিক সিমুলেশন</strong> ব্যবহার হয়। [দি. বো. ২০১৭]</div>
+  </div>
+</div>
+</div>
+</section>
+
+<!-- ===== AI & ROBOTICS ===== -->
+<section class="sec fade-in" id="ai">
+<div class="sec-eye">🤖 AI ও রোবটিক্স</div>
+<h2 class="sec-title">কৃত্রিম বুদ্ধিমত্তা, <span class="hl-red">রোবটিক্স</span> ও সম্পর্কিত প্রযুক্তি</h2>
+<div class="g2c">
+<div class="card">
+  <div class="ch"><div class="ci" style="background:rgba(0,77,152,0.2);">🧠</div><div><div class="ct">কৃত্রিম বুদ্ধিমত্তা (AI)</div><div class="cs">সি. বোর্ড ২০১৯, ঢা. বোর্ড ২০১৬</div></div></div>
+  <div class="cb">
+    <div class="imp-def">
+      <div class="q">কৃত্রিম বুদ্ধিমত্তা কী? [সি. বোর্ড ২০১৯]</div>
+      <div class="a">মানুষের চিন্তাভাবনা ও শেখার সক্ষমতাকে প্রোগ্রামিংয়ের মাধ্যমে কোনো যন্ত্রে সিমুলেশন করা হলে যন্ত্রে যে বুদ্ধিমত্তা প্রকাশ পায় তাকে কৃত্রিম বুদ্ধিমত্তা বলে।</div>
+    </div>
+    <div class="def-grid" style="grid-template-columns:1fr 1fr;gap:0.5rem;">
+      <div class="def-card" style="padding:0.75rem;">
+        <div class="def-term" style="font-size:0.78rem;">💡 পারসেপট্রন</div>
+        <div class="def-text" style="font-size:0.75rem;">কম্পিউটারের জন্য গাণিতিকভাবে তৈরি কৃত্রিম নিউরন।</div>
+      </div>
+      <div class="def-card" style="padding:0.75rem;">
+        <div class="def-term" style="font-size:0.78rem;">🕸️ নিউরাল নেটওয়ার্ক</div>
+        <div class="def-text" style="font-size:0.75rem;">কৃত্রিম নিউরনগুলোকে বিভিন্ন স্তরে সাজিয়ে যোগাযোগ স্থাপনকারী নেটওয়ার্ক। [ম. বোর্ড ২০২৪]</div>
+      </div>
+      <div class="def-card" style="padding:0.75rem;">
+        <div class="def-term" style="font-size:0.78rem;">🎓 মেশিন লার্নিং</div>
+        <div class="def-text" style="font-size:0.75rem;">AI-র শাখা — মেশিনকে প্রশিক্ষণ দেওয়া হয়, নিজের ভুল থেকে শেখে।</div>
+      </div>
+      <div class="def-card" style="padding:0.75rem;">
+        <div class="def-term" style="font-size:0.78rem;">🔬 ডিপ লার্নিং</div>
+        <div class="def-text" style="font-size:0.75rem;">মেশিন লার্নিংয়ের শাখা — ANN ব্যবহার করে জটিল ডেটা বিশ্লেষণ।</div>
+      </div>
+    </div>
+    <div class="ib ib-b"><strong>NLP কী?</strong> কম্পিউটারকে মানুষের ভাষা বুঝতে ও উত্তর দেওয়ার সক্ষমতা প্রদানকারী AI শাখা।</div>
+  </div>
+</div>
+<div class="card red-hover" id="robotics">
+  <div class="ch"><div class="ci" style="background:rgba(165,0,68,0.2);">⚙️</div><div><div class="ct">রোবটিক্স ও রোবট</div><div class="cs">কু. বোর্ড ২০২৪, সি. বোর্ড ২০২৪</div></div></div>
+  <div class="cb">
+    <div class="imp-def">
+      <div class="q">রোবটিক্স কী? [কু. বোর্ড ২০২৪, সি. বোর্ড ২০২৪]</div>
+      <div class="a">প্রযুক্তির যে শাখায় রোবটের ডিজাইন, রোবট তৈরি, পরিচালনা ও প্রয়োগক্ষেত্র সম্পর্কে আলোচনা করা হয়, সেই শাখাকে রোবটিক্স বলা হয়।</div>
+      <div class="board">📌 কু. বোর্ড ২০২৪, সি. বোর্ড ২০২৪, ম. বোর্ড ২০২৩, ঢা. কু. মা. বোর্ড ২০১৯</div>
+    </div>
+    <div class="imp-def">
+      <div class="q">রোবট কী?</div>
+      <div class="a">রোবট হচ্ছে কম্পিউটার নিয়ন্ত্রিত এক ধরনের ইলেকট্রো-মেকানিক্যাল যন্ত্র যা স্বয়ংক্রিয়ভাবে বা কোনো ব্যক্তির নির্দেশে কাজ করতে পারে।</div>
+    </div>
+    <div class="imp-def">
+      <div class="q">অ্যাকচুয়েটর কী? [মা. বোর্ড ২০১৮]</div>
+      <div class="a">রোবটের অঙ্গ-প্রত্যঙ্গের নড়াচড়া করার জন্য বৈদ্যুতিক মটরের সমন্বয়ে তৈরি বিশেষ ব্যবস্থাকে অ্যাকচুয়েটর বলে।</div>
+    </div>
+    <div class="tw"><table><thead><tr><th>রোবটের ব্যবহার</th></tr></thead><tbody>
+      <tr><td>🏭 শিল্প কারখানা (অ্যাসেম্বলি লাইন)</td></tr>
+      <tr><td>🏥 অস্ত্রোপচার (Surgical Robot)</td></tr>
+      <tr><td>💣 বোমা নিষ্ক্রিয় করা</td></tr>
+      <tr><td>🌌 মহাকাশ গবেষণা</td></tr>
+      <tr><td>🌊 সমুদ্র তলদেশ অন্বেষণ</td></tr>
+    </tbody></table></div>
+  </div>
+</div>
+</div>
+</section>
+
+<!-- ===== CRYOSURGERY ===== -->
+<section class="sec fade-in" id="cryosurgery">
+<div class="sec-eye">❄️ চিকিৎসা প্রযুক্তি</div>
+<h2 class="sec-title"><span class="hl-blue">ক্রায়োসার্জারি</span> — Cryosurgery</h2>
+<div class="g2c">
+<div class="card">
+  <div class="ch"><div class="ci" style="background:rgba(0,77,152,0.2);">❄️</div><div><div class="ct">ক্রায়োসার্জারি কী ও কীভাবে কাজ করে?</div><div class="cs">চ. বোর্ড ২০২৩, ঢা. বোর্ড ২০১৭</div></div></div>
+  <div class="cb">
+    <div class="imp-def">
+      <div class="q">ক্রায়োসার্জারি কী? [চ. বোর্ড ২০২৩, ঢা. বোর্ড ২০১৭]</div>
+      <div class="a">ক্রায়োসার্জারি হল এমন একটি চিকিৎসা পদ্ধতি যাতে অত্যধিক শীতল তাপমাত্রা প্রয়োগ করে শরীরের অস্বাভাবিক বা রোগাক্রান্ত কোষসমূহ ধ্বংস করা হয়।</div>
+      <div class="board">📌 Cryo = বরফের মতো ঠান্ডা | Surgery = কেটে ফেলা</div>
+    </div>
+    <div class="tw"><table><thead><tr><th>উপাদান</th><th>বিস্তারিত</th></tr></thead><tbody>
+      <tr><td>ক্রায়োজেনিক এজেন্ট</td><td><strong>তরল নাইট্রোজেন</strong> (প্রধান)</td></tr>
+      <tr><td>ক্রায়োপ্রোব</td><td>যে যন্ত্রে তরল গ্যাস প্রয়োগ হয়</td></tr>
+      <tr><td>তাপমাত্রা</td><td>-৪১°C থেকে -১৯৬°C</td></tr>
+    </tbody></table></div>
+    <div class="imp-def">
+      <div class="q">ক্রায়োপ্রোব কী? [য. বোর্ড ২০২৩]</div>
+      <div class="a">ক্রায়োসার্জারিতে যে যন্ত্রের সাহায্যে তরল গ্যাস শরীরের অভ্যন্তরে রোগাক্রান্ত কোষে প্রয়োগ করা হয় তাকে ক্রায়োপ্রোব বলে।</div>
+    </div>
+  </div>
+</div>
+<div class="card red-hover">
+  <div class="ch"><div class="ci" style="background:rgba(165,0,68,0.2);">💊</div><div><div class="ct">ব্যবহার, সুবিধা ও অসুবিধা</div><div class="cs">পরীক্ষায় গুরুত্বপূর্ণ</div></div></div>
+  <div class="cb">
+    <div class="ib ib-b"><strong>ব্যবহার:</strong></div>
+    <div class="pg">
+      <span class="pill">ত্বকের ক্যান্সার</span><span class="pill">প্রোস্টেট ক্যান্সার</span>
+      <span class="pill">লিভার টিউমার</span><span class="pill">ত্বকের আঁচিল</span>
+      <span class="pill">জরায়ু ক্যান্সার</span>
+    </div>
+    <div class="ib ib-g"><strong>সুবিধা:</strong> রক্তক্ষরণ কম · দ্রুত আরোগ্য · কম ব্যথা · কোনো কাটাছেঁড়া নেই · পার্শ্বপ্রতিক্রিয়া কম</div>
+    <div class="ib ib-r"><strong>অসুবিধা:</strong> সব ক্যান্সারে কার্যকর নয় · গভীর ক্ষতির ক্ষেত্রে সীমাবদ্ধতা · বিশেষ যন্ত্রপাতি প্রয়োজন</div>
+    <div class="ib ib-y"><strong>MCQ টিপস:</strong> ক্রায়োসার্জারিতে ব্যবহৃত প্রধান উপাদান = <strong>তরল নাইট্রোজেন</strong> [য. বো. ২০১৯]</div>
+  </div>
+</div>
+</div>
+</section>
+
+<!-- ===== BIOMETRIC ===== -->
+<section class="sec fade-in" id="biometric">
+<div class="sec-eye">🔐 নিরাপত্তা প্রযুক্তি</div>
+<h2 class="sec-title"><span class="hl-red">বায়োমেট্রিক</span> — Biometric System</h2>
+<div class="g2c">
+<div class="card">
+  <div class="ch"><div class="ci" style="background:rgba(0,77,152,0.2);">👁️</div><div><div class="ct">বায়োমেট্রিক সংজ্ঞা ও প্রকার</div><div class="cs">দি. বোর্ড ২০২৩, ব. বোর্ড ২০১৯</div></div></div>
+  <div class="cb">
+    <div class="imp-def">
+      <div class="q">বায়োমেট্রিক কী? [দি. বোর্ড ২০২৩]</div>
+      <div class="a">বায়োমেট্রিক হলো এমন একটি প্রযুক্তি যেখানে কোনো ব্যক্তির গঠনগত বা আচরণগত বৈশিষ্ট্যের উপর ভিত্তি করে অদ্বিতীয়ভাবে চিহ্নিত বা সনাক্ত করা হয়।</div>
+      <div class="board">📌 দি. বোর্ড ২০২৩, ব. বোর্ড ২০১৯, দি. বোর্ড ২০১৬</div>
+    </div>
+    <div class="tw"><table><thead><tr><th colspan="2">বায়োমেট্রিকের প্রকারভেদ</th></tr></thead><tbody>
+      <tr><td><strong>শারীরবৃত্তীয় (Physiological)</strong></td><td>আঙুলের ছাপ, চোখের আইরিস, মুখের গঠন, হাতের জ্যামিতি, DNA</td></tr>
+      <tr><td><strong>আচরণগত (Behavioural)</strong></td><td>কণ্ঠস্বর, টাইপিং ধরন, হাঁটার ধরন, স্বাক্ষর</td></tr>
+    </tbody></table></div>
+  </div>
+</div>
+<div class="card red-hover">
+  <div class="ch"><div class="ci" style="background:rgba(165,0,68,0.2);">🖐️</div><div><div class="ct">হ্যান্ড জিওমেট্রি ও ব্যবহার</div><div class="cs">মা. বোর্ড ২০১৮</div></div></div>
+  <div class="cb">
+    <div class="imp-def">
+      <div class="q">হ্যান্ড জিওমেট্রি কী? [মা. বোর্ড ২০১৮]</div>
+      <div class="a">হ্যান্ড জিওমেট্রি হচ্ছে একটি শরীরবৃত্তীয় বায়োমেট্রিক পদ্ধতি যেখানে হাতের জ্যামিতিক বৈশিষ্ট্য ব্যবহার করে ব্যক্তিকে চিহ্নিত করা হয়।</div>
+    </div>
+    <div class="ib ib-b"><strong>বায়োমেট্রিকের ব্যবহার:</strong></div>
+    <div class="pg">
+      <span class="pill">পাসপোর্ট</span><span class="pill">ভোটার ID</span>
+      <span class="pill">অফিস নিরাপত্তা</span><span class="pill">মোবাইল আনলক</span>
+      <span class="pill">ব্যাংক</span><span class="pill">সীমান্ত নিয়ন্ত্রণ</span>
+    </div>
+    <div class="ib ib-y"><strong>MCQ টিপস:</strong> বায়োমেট্রিকে VR-এ ব্যবহার হয় <strong>হ্যান্ড জিওমেট্রি</strong> নয় — এটি বায়োমেট্রিকের অংশ! [দি. বো. ২০১৭]</div>
+  </div>
+</div>
+</div>
+</section>
+
+<!-- ===== BIOINFORMATICS ===== -->
+<section class="sec fade-in" id="bioinformatics">
+<div class="sec-eye">🧬 জীববিজ্ঞান + ICT</div>
+<h2 class="sec-title"><span class="hl-blue">বায়োইনফরমেটিক্স</span> — Bioinformatics</h2>
+<div class="g2c">
+<div class="card">
+  <div class="ch"><div class="ci" style="background:rgba(0,77,152,0.2);">🧬</div><div><div class="ct">বায়োইনফরমেটিক্স সংজ্ঞা ও বৈশিষ্ট্য</div><div class="cs">ব. বোর্ড ২০২৪, সি. বোর্ড ২০১৭</div></div></div>
+  <div class="cb">
+    <div class="imp-def">
+      <div class="q">বায়োইনফরমেটিক্স কী? [ব. বোর্ড ২০২৪]</div>
+      <div class="a">কম্পিউটার বিজ্ঞান, পরিসংখ্যান, গণিত ও ইঞ্জিনিয়ারিং জ্ঞানের সমন্বয়ে গঠিত একটি বিষয় যা জীববিজ্ঞানের বিশাল পরিমাণ ডেটা সংগ্রহ, সংরক্ষণ ও প্রক্রিয়া করে তা ব্যাখ্যা করতে পারে।</div>
+      <div class="board">📌 ব. বোর্ড ২০২৪, সি. বোর্ড ২০১৭</div>
+    </div>
+    <div class="ib ib-b"><strong>বৈশিষ্ট্য:</strong> জৈবিক ডেটার সমাহার [রা. বো. ২০১৬] · বিপুল পরিমাণ ডেটা বিশ্লেষণ · জিন গবেষণায় ব্যবহার</div>
+    <div class="ib ib-y"><strong>MCQ:</strong> বায়োইনফরমেটিক্সে ব্যবহৃত হয় — <strong>PROLOG</strong> ভাষা [মা. বো. ২০১৯]</div>
+  </div>
+</div>
+<div class="card red-hover">
+  <div class="ch"><div class="ci" style="background:rgba(165,0,68,0.2);">🔬</div><div><div class="ct">ব্যবহার, সুবিধা ও অসুবিধা</div><div class="cs">পরীক্ষার জন্য গুরুত্বপূর্ণ</div></div></div>
+  <div class="cb">
+    <div class="pg">
+      <span class="pill">জিন খোঁজা (Gene Finding)</span>
+      <span class="pill">প্রোটিন বিশ্লেষণ</span>
+      <span class="pill">ওষুধ আবিষ্কার</span>
+      <span class="pill">রোগ নির্ণয়</span>
+      <span class="pill">DNA সিকোয়েন্সিং</span>
+    </div>
+    <div class="ib ib-g"><strong>সুবিধা:</strong> দ্রুত জিন গবেষণা · নতুন ওষুধ আবিষ্কার · রোগের কারণ সনাক্ত · ব্যক্তিগতকৃত চিকিৎসা</div>
+    <div class="ib ib-r"><strong>অসুবিধা:</strong> ডেটা গোপনীয়তার ঝুঁকি · বিশেষজ্ঞ প্রয়োজন · ব্যয়বহুল</div>
+    <div class="ib ib-b"><strong>মনে রাখো:</strong> জীব সংক্রান্ত তথ্য ব্যবস্থাপনায় কম্পিউটার প্রযুক্তির প্রয়োগ = <strong>বায়োইনফরমেটিক্স</strong> [চ. বো. ২০১৯]</div>
+  </div>
+</div>
+</div>
+</section>
+
+<!-- ===== GENETIC ENGINEERING ===== -->
+<section class="sec fade-in" id="genetic">
+<div class="sec-eye">🧫 জেনেটিক্স</div>
+<h2 class="sec-title"><span class="hl-red">জেনেটিক ইঞ্জিনিয়ারিং</span> — Genetic Engineering</h2>
+<div class="g2c">
+<div class="card">
+  <div class="ch"><div class="ci" style="background:rgba(165,0,68,0.2);">🧬</div><div><div class="ct">সংজ্ঞা ও মূল ধারণা</div><div class="cs">গুরুত্বপূর্ণ টপিক</div></div></div>
+  <div class="cb">
+    <div class="imp-def">
+      <div class="q">জেনেটিক ইঞ্জিনিয়ারিং কী?</div>
+      <div class="a">জেনেটিক ইঞ্জিনিয়ারিং হলো বিভিন্ন প্রযুক্তির সমন্বয় যার সাহায্যে কোষের জেনেটিক কাঠামো পরিবর্তন করে নতুন বৈশিষ্ট্যসম্পন্ন উন্নত বা অভিনব জীব উৎপন্ন করা হয়।</div>
+    </div>
+    <div class="imp-def">
+      <div class="q">GMO কী?</div>
+      <div class="a">RDNA (Recombinant DNA) সমৃদ্ধ জীবকোষকে বলা হয় GMO (Genetically Modified Organism)।</div>
+    </div>
+    <div class="ib ib-b"><strong>মূল প্রক্রিয়া:</strong> DNA কাটা → নতুন জিন সংযোজন → নতুন বৈশিষ্ট্য তৈরি</div>
+  </div>
+</div>
+<div class="card">
+  <div class="ch"><div class="ci" style="background:rgba(0,77,152,0.2);">🌾</div><div><div class="ct">ব্যবহার ও প্রয়োজনীয়তা</div><div class="cs">কৃষি থেকে চিকিৎসা</div></div></div>
+  <div class="cb">
+    <div class="tw"><table><thead><tr><th>ক্ষেত্র</th><th>উদাহরণ</th></tr></thead><tbody>
+      <tr><td>🌾 কৃষি</td><td>রোগ প্রতিরোধী ফসল, বন্যা সহনীয় ধান</td></tr>
+      <tr><td>💊 চিকিৎসা</td><td>ইনসুলিন উৎপাদন, ক্যান্সার চিকিৎসা</td></tr>
+      <tr><td>🧀 খাদ্য</td><td>পুষ্টিগুণ বৃদ্ধি, দীর্ঘস্থায়িত্ব</td></tr>
+      <tr><td>🌱 পরিবেশ</td><td>দূষণ পরিষ্কারকারী জীব তৈরি</td></tr>
+    </tbody></table></div>
+    <div class="ib ib-g"><strong>বাংলাদেশে:</strong> BRRI উদ্ভাবিত বন্যা সহনীয় ধান জেনেটিক ইঞ্জিনিয়ারিংয়ের ফল — এজন্য বাংলাদেশ খাদ্যে স্বয়ংসম্পূর্ণ।</div>
+    <div class="ib ib-r"><strong>নৈতিক বিতর্ক:</strong> প্রকৃতির উপর হস্তক্ষেপ, অজানা পার্শ্বপ্রতিক্রিয়া, ধর্মীয় মতভেদ।</div>
+  </div>
+</div>
+</div>
+</section>
+
+<!-- ===== NANOTECHNOLOGY ===== -->
+<section class="sec fade-in" id="nano">
+<div class="sec-eye">⚛️ ন্যানো</div>
+<h2 class="sec-title"><span class="hl-blue">ন্যানোটেকনোলজি</span> — Nanotechnology</h2>
+<div class="g2c">
+<div class="card">
+  <div class="ch"><div class="ci" style="background:rgba(0,77,152,0.2);">⚛️</div><div><div class="ct">ন্যানোটেকনোলজি সংজ্ঞা</div><div class="cs">চ. বোর্ড ২০২৪, কু. বোর্ড ২০২৩</div></div></div>
+  <div class="cb">
+    <div class="imp-def">
+      <div class="q">ন্যানোটেকনোলজি কী? [চ. বোর্ড ২০২৪, কু. বোর্ড ২০২৩]</div>
+      <div class="a">১ থেকে ১০০ ন্যানোমিটার আকৃতির কোনো কিছু তৈরি করা এবং ব্যবহার করার প্রযুক্তিকে ন্যানোটেকনোলজি বলে।</div>
+      <div class="board">📌 চ. বোর্ড ২০২৪, কু. বোর্ড ২০২৩, ঢা. বোর্ড ২০২৩, রা. দি. বোর্ড ২০১৭</div>
+    </div>
+    <div class="ib ib-y"><strong>গুরুত্বপূর্ণ মাপ:</strong> ১ ন্যানোমিটার = ১০⁻⁹ মিটার। ১টি মানুষের চুলের প্রস্থ = প্রায় ৮০,০০০-১০০,০০০ ন্যানোমিটার!</div>
+    <div class="imp-def">
+      <div class="q">ন্যানো বস্তু কী?</div>
+      <div class="a">১ থেকে ১০০ ন্যানোমিটার আকৃতির কোনো বস্তুকে ন্যানো বস্তু বলে।</div>
+    </div>
+  </div>
+</div>
+<div class="card red-hover">
+  <div class="ch"><div class="ci" style="background:rgba(165,0,68,0.2);">🔭</div><div><div class="ct">ব্যবহার, সুবিধা ও অসুবিধা</div><div class="cs">বিস্তারিত</div></div></div>
+  <div class="cb">
+    <div class="pg">
+      <span class="pill">চিকিৎসা (ক্যান্সার)</span><span class="pill">ইলেকট্রনিক্স</span>
+      <span class="pill">পরিবেশ পরিষ্কার</span><span class="pill">খাদ্য প্রযুক্তি</span>
+      <span class="pill">টেক্সটাইল</span><span class="pill">প্রতিরক্ষা</span>
+    </div>
+    <div class="ib ib-g"><strong>সুবিধা:</strong> অতি ক্ষুদ্র যন্ত্র তৈরি · শক্তি সঞ্চয় · উন্নত ওষুধ সরবরাহ · শক্তিশালী উপকরণ</div>
+    <div class="ib ib-r"><strong>অসুবিধা:</strong> স্বাস্থ্য ঝুঁকি অজানা · পরিবেশগত প্রভাব অনিশ্চিত · অত্যন্ত ব্যয়বহুল · নৈতিক প্রশ্ন</div>
+    <div class="ib ib-b"><strong>CAD কী?</strong> CAD (Computer Aided Design) — ডিজাইন তৈরি, পরিবর্তন ও বিশ্লেষণে কম্পিউটারের ব্যবহার। [ঢা. বোর্ড ২০২৩]</div>
+  </div>
+</div>
+</div>
+</section>
+
+<!-- ===== SPACE ===== -->
+<section class="sec fade-in" id="space">
+<div class="sec-eye">🚀 মহাকাশ</div>
+<h2 class="sec-title"><span class="hl-red">মহাকাশ অভিযান</span> ও IoT</h2>
+<div class="g2c">
+<div class="card">
+  <div class="ch"><div class="ci" style="background:rgba(165,0,68,0.2);">🚀</div><div><div class="ct">মহাকাশ অভিযান কী?</div><div class="cs">ব. বোর্ড ২০২৪</div></div></div>
+  <div class="cb">
+    <div class="imp-def">
+      <div class="q">মহাকাশ অভিযান কী? [ব. বোর্ড ২০২৪]</div>
+      <div class="a">মহাকাশচারীসহ কিংবা মহাকাশচারী ব্যতীত কোনো মহাকাশযান যখন পৃথিবীর মধ্যাকর্ষণ শক্তির বাধা অতিক্রম করে পৃথিবীপৃষ্ঠ থেকে কমপক্ষে একশত কিলোমিটার উপরে বায়ুমণ্ডলের বাইরে যায় তখন সেটাকে মহাকাশ অভিযান বলে।</div>
+    </div>
+    <div class="ib ib-b"><strong>ICT-র ভূমিকা:</strong> উপগ্রহ নিয়ন্ত্রণ · রোবোটিক এক্সপ্লোরার · ডেটা ট্রান্সমিশন · GPS সিস্টেম</div>
+  </div>
+</div>
+<div class="card">
+  <div class="ch"><div class="ci" style="background:rgba(0,77,152,0.2);">🌐</div><div><div class="ct">Internet of Things (IoT)</div><div class="cs">আধুনিক প্রযুক্তি</div></div></div>
+  <div class="cb">
+    <div class="imp-def">
+      <div class="q">ইন্টারনেট অব থিংস (IoT) কী?</div>
+      <div class="a">ইন্টারনেট অব থিংস (IoT) হল একটি প্রযুক্তি যা বিভিন্ন ধরনের যন্ত্রপাতিকে ইন্টারনেটের মাধ্যমে সংযুক্ত করে, যাতে তারা একে অপরের সাথে তথ্য শেয়ার করতে পারে এবং স্বয়ংক্রিয়ভাবে কাজ করতে পারে।</div>
+    </div>
+    <div class="pg">
+      <span class="pill">স্মার্ট হোম</span><span class="pill">স্মার্ট সিটি</span>
+      <span class="pill">ওয়্যারেবল ডিভাইস</span><span class="pill">শিল্প IoT</span>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<!-- ===== ETHICS ===== -->
+<section class="sec fade-in" id="ethics">
+<div class="sec-eye">🛡️ নৈতিকতা</div>
+<h2 class="sec-title">ICT ব্যবহারে <span class="hl-blue">নৈতিকতা</span> ও সাইবার ক্রাইম</h2>
+<p class="sec-desc">তথ্য ও যোগাযোগ প্রযুক্তির সঠিক ও নৈতিক ব্যবহার অত্যন্ত গুরুত্বপূর্ণ। অনৈতিক ব্যবহার সাইবার ক্রাইমে রূপ নেয়।</p>
+<div class="def-grid">
+  <div class="def-card">
+    <div class="def-term" style="color:#F87171;">⚠️ হ্যাকিং</div>
+    <div class="def-text">বৈধ অনুমতি ব্যতীত অসৎ উদ্দেশ্যে কোনো কম্পিউটার বা নেটওয়ার্কে প্রবেশ বা নিয়ন্ত্রণ নেওয়া।</div>
+    <div class="def-board">📌 রা. বোর্ড ২০১৯</div>
+  </div>
+  <div class="def-card">
+    <div class="def-term" style="color:#FB923C;">🎣 ফিশিং</div>
+    <div class="def-text">সুপ্রতিষ্ঠিত ওয়েবসাইট সেজে প্রতারণার মাধ্যমে ব্যক্তিগত তথ্য (পাসওয়ার্ড, ব্যাংক তথ্য) সংগ্রহ করা।</div>
+    <div class="def-board">📌 গুরুত্বপূর্ণ</div>
+  </div>
+  <div class="def-card">
+    <div class="def-term" style="color:#A78BFA;">📞 ভিশিং</div>
+    <div class="def-text">মোবাইল ফোন বা অডিও ব্যবহার করে ফিশিং করাকে ভিশিং বা ভয়েস ফিশিং বলে।</div>
+    <div class="def-board">📌 নতুন টপিক</div>
+  </div>
+  <div class="def-card">
+    <div class="def-term" style="color:#34D399;">🎭 স্পুফিং</div>
+    <div class="def-text">মিথ্যা বা ভুল তথ্য উপস্থাপনের মাধ্যমে নেটওয়ার্ককে বিভ্রান্ত করে সিকিউরিটি সিস্টেমে অনুপ্রবেশ করা।</div>
+    <div class="def-board">📌 MCQ-তে আসে</div>
+  </div>
+  <div class="def-card">
+    <div class="def-term" style="color:#60A5FA;">📧 স্প্যামিং</div>
+    <div class="def-text">অনাকাঙ্ক্ষিত বা অবাঞ্ছিত ইমেইল বা মেসেজ পাঠানোকে স্প্যামিং বলে।</div>
+    <div class="def-board">📌 সহজ সংজ্ঞা</div>
+  </div>
+  <div class="def-card">
+    <div class="def-term" style="color:#F472B6;">📋 প্লেজিয়ারিজম</div>
+    <div class="def-text">কোনো ব্যক্তির সাহিত্য, গবেষণা বা সম্পাদনা কর্ম হুবহু নকল বা আংশিক পরিবর্তন করে নিজের নামে প্রকাশ করা।</div>
+    <div class="def-board">📌 য. বোর্ড ২০১৯</div>
+  </div>
+  <div class="def-card">
+    <div class="def-term" style="color:#FBBF24;">💿 সফটওয়্যার পাইরেসি</div>
+    <div class="def-text">লাইসেন্সবিহীনভাবে বা স্বত্বাধিকারীর অনুমোদন ব্যতীত সফটওয়্যার কপি করা বা ব্যবহার করা।</div>
+    <div class="def-board">📌 য. বোর্ড ২০২৪</div>
+  </div>
+  <div class="def-card">
+    <div class="def-term" style="color:#EF4444;">🌐 সাইবার ক্রাইম</div>
+    <div class="def-text">ইন্টারনেটকে কেন্দ্র করে যেসব কম্পিউটার ক্রাইম সংঘটিত হয় তাদেরকে সাইবার ক্রাইম বলে।</div>
+    <div class="def-board">📌 অত্যন্ত গুরুত্বপূর্ণ</div>
+  </div>
+</div>
+</section>
+
+<!-- ===== ALL DEFINITIONS ===== -->
+<section class="sec fade-in" id="definitions">
+<div class="sec-eye">📖 সংজ্ঞা সংকলন</div>
+<h2 class="sec-title">বোর্ড পরীক্ষার <span class="hl-red">গুরুত্বপূর্ণ সংজ্ঞা</span> ও MCQ টিপস</h2>
+<div class="ib ib-y" style="margin-bottom:1rem;"><strong>⚡ পরীক্ষায় বেশি আসা MCQ উত্তর:</strong><br>
+বিশ্বগ্রামের প্রবক্তা → <strong>মার্শাল ম্যাকলুহান</strong> | ভার্চুয়াল রিয়েলিটি → <strong>ত্রিমাত্রিক সিমুলেশন</strong> | ক্রায়োসার্জারি উপাদান → <strong>তরল নাইট্রোজেন</strong> | বায়োমেট্রিকে VR-এ → <strong>হ্যান্ড জিওমেট্রি নয়</strong> | বিশ্বগ্রামের সবচেয়ে গুরুত্বপূর্ণ উপাদান → <strong>ইন্টারনেট</strong>
+</div>
+<div class="g3c">
+  <div class="card" style="padding:1rem;">
+    <div style="color:#60A5FA;font-weight:700;font-size:0.85rem;margin-bottom:8px;">🌍 বিশ্বগ্রাম সংক্রান্ত</div>
+    <div style="font-size:0.78rem;color:var(--text2);line-height:1.8;">
+      ✦ ধারণার প্রবক্তা: মার্শাল ম্যাকলুহান<br>
+      ✦ বই: The Gutenberg Galaxy (1962)<br>
+      ✦ পূর্ণ রূপ: ১৯৭০ সালে<br>
+      ✦ মূল উপাদান: ইন্টারনেট (সবচেয়ে গুরুত্বপূর্ণ)<br>
+      ✦ লক্ষ্য: একক সমাজ গঠন
+    </div>
+  </div>
+  <div class="card" style="padding:1rem;">
+    <div style="color:#F472B6;font-weight:700;font-size:0.85rem;margin-bottom:8px;">🥽 ভার্চুয়াল রিয়েলিটি</div>
+    <div style="font-size:0.78rem;color:var(--text2);line-height:1.8;">
+      ✦ মাত্রা: ত্রিমাত্রিক (3D)<br>
+      ✦ প্রযুক্তি: কম্পিউটার সিমুলেশন<br>
+      ✦ যন্ত্র: HMD (Head Mounted Display)<br>
+      ✦ নতুন রূপ: অগমেন্টেড রিয়েলিটি (AR)<br>
+      ✦ বাস্তব নয় কিন্তু বাস্তবের মতো অনুভূতি
+    </div>
+  </div>
+  <div class="card" style="padding:1rem;">
+    <div style="color:#6EE7B7;font-weight:700;font-size:0.85rem;margin-bottom:8px;">❄️ ক্রায়োসার্জারি</div>
+    <div style="font-size:0.78rem;color:var(--text2);line-height:1.8;">
+      ✦ Cryo = বরফের মতো ঠান্ডা<br>
+      ✦ প্রধান উপাদান: তরল নাইট্রোজেন<br>
+      ✦ যন্ত্র: ক্রায়োপ্রোব<br>
+      ✦ তরল গ্যাস: ক্রায়োজেনিক এজেন্ট<br>
+      ✦ ব্যবহার: ক্যান্সার কোষ ধ্বংস
+    </div>
+  </div>
+  <div class="card" style="padding:1rem;">
+    <div style="color:#FDE68A;font-weight:700;font-size:0.85rem;margin-bottom:8px;">🔐 বায়োমেট্রিক</div>
+    <div style="font-size:0.78rem;color:var(--text2);line-height:1.8;">
+      ✦ শারীরবৃত্তীয়: আঙুলের ছাপ, আইরিস<br>
+      ✦ আচরণগত: কণ্ঠস্বর, স্বাক্ষর<br>
+      ✦ হ্যান্ড জিওমেট্রি: শারীরবৃত্তীয় পদ্ধতি<br>
+      ✦ ব্যবহার: পাসপোর্ট, ব্যাংক, অফিস
+    </div>
+  </div>
+  <div class="card" style="padding:1rem;">
+    <div style="color:#C4B5FD;font-weight:700;font-size:0.85rem;margin-bottom:8px;">🤖 AI ও রোবটিক্স</div>
+    <div style="font-size:0.78rem;color:var(--text2);line-height:1.8;">
+      ✦ AI: যন্ত্রে মানুষের বুদ্ধিমত্তা সিমুলেশন<br>
+      ✦ রোবট: ইলেকট্রো-মেকানিক্যাল যন্ত্র<br>
+      ✦ অ্যাকচুয়েটর: রোবটের নড়াচড়া যন্ত্র<br>
+      ✦ মেশিন লার্নিং: প্রশিক্ষণ পাওয়া AI<br>
+      ✦ NLP: মানুষের ভাষা বোঝার প্রযুক্তি
+    </div>
+  </div>
+  <div class="card" style="padding:1rem;">
+    <div style="color:#F9A8D4;font-weight:700;font-size:0.85rem;margin-bottom:8px;">⚛️ ন্যানোটেকনোলজি</div>
+    <div style="font-size:0.78rem;color:var(--text2);line-height:1.8;">
+      ✦ আকার: ১-১০০ ন্যানোমিটার<br>
+      ✦ ১ nm = ১০⁻⁹ মিটার<br>
+      ✦ ব্যবহার: চিকিৎসা, ইলেকট্রনিক্স<br>
+      ✦ CAD: Computer Aided Design<br>
+      ✦ চ. বোর্ড ২০২৪ তে এসেছে
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ===== MCQ ===== -->
+<section class="sec fade-in" id="mcq">
+<div class="sec-eye">🎯 পরীক্ষা প্রস্তুতি</div>
+<h2 class="sec-title">MCQ <span class="hl-blue">প্র্যাকটিস</span> — ২৫ টি প্রশ্ন</h2>
+<p class="sec-desc">বোর্ড পরীক্ষার আদলে তৈরি MCQ প্রশ্ন। প্রতিটি উত্তরের পর বিস্তারিত ব্যাখ্যা পাবে।</p>
+<div class="mcq-wrap">
+  <div class="mcq-progress"><div class="mcq-pf" id="mcqPf" style="width:0%"></div></div>
+  <div class="mcq-meta">
+    <span>প্রশ্ন <span id="mcqN">১</span> / ২৫</span>
+    <span>স্কোর: <span id="mcqScore">০</span> / ২৫</span>
+  </div>
+  <div class="mcq-q" id="mcqQ"></div>
+  <div class="mcq-opts" id="mcqOpts"></div>
+  <div class="mcq-fb" id="mcqFb"></div>
+  <div class="mcq-nav">
+    <span id="mcqRes" style="font-size:0.8rem;color:var(--text2);"></span>
+    <button class="btn btn-p" id="mcqNext" onclick="nextMcq()" style="display:none">পরের প্রশ্ন →</button>
+    <button class="btn btn-r" id="mcqRst" onclick="restartMcq()" style="display:none">আবার শুরু করো</button>
+  </div>
+</div>
+</section>
+
+<!-- FOOTER -->
+<footer style="background:var(--dark2);border-top:1px solid var(--border);padding:2rem;text-align:center;">
+  <div style="font-size:0.9rem;font-weight:700;margin-bottom:4px;">
+    <span style="color:var(--barca-blue);">FC Barcelona</span> style 🔵🔴 — 
+    <span style="color:var(--text2);">HSC ICT প্রথম অধ্যায়</span>
+  </div>
+  <div style="font-size:0.75rem;color:var(--text3);">তথ্য ও যোগাযোগ প্রযুক্তি: বিশ্ব ও বাংলাদেশ প্রেক্ষিত — সম্পূর্ণ প্রস্তুতি গাইড</div>
+  <div style="margin-top:0.75rem;"><a href="#hero" style="color:var(--text3);font-size:0.75rem;" onmouseover="this.style.color='#60A5FA'" onmouseout="this.style.color='var(--text3)'">↑ উপরে যাও</a></div>
+</footer>
+</div><!-- end main -->
+
+<script>
+// MCQ Data
+const mcqs = [
+  {q:"বিশ্বগ্রাম ধারণার প্রবক্তা কে?",opts:["টিম বার্নারস-লি","মার্শাল ম্যাকলুহান","মার্ক জুকারবার্গ","বিল গেটস"],ans:1,exp:"মার্শাল ম্যাকলুহান (Marshall McLuhan) তার ১৯৬২ সালের বই 'The Gutenberg Galaxy'-তে প্রথম বিশ্বগ্রাম ধারণার অবতারণা করেন।"},
+  {q:"বিশ্বগ্রাম প্রতিষ্ঠার ক্ষেত্রে সবচেয়ে গুরুত্বপূর্ণ উপাদান কোনটি?",opts:["রেডিও","টেলিভিশন","ইন্টারনেট","স্যাটেলাইট"],ans:2,exp:"ইন্টারনেট হলো বিশ্বগ্রাম প্রতিষ্ঠার সবচেয়ে গুরুত্বপূর্ণ উপাদান কারণ এটি বিশ্বব্যাপী তাৎক্ষণিক যোগাযোগ সক্ষম করে।"},
+  {q:"ভার্চুয়াল রিয়েলিটিতে কোন ধরনের ছবি দেখানো হয়? [কু. বো. ২০১৬]",opts:["একমাত্রিক","দ্বিমাত্রিক","ত্রিমাত্রিক","চতুর্মাত্রিক"],ans:2,exp:"ভার্চুয়াল রিয়েলিটিতে ত্রিমাত্রিক (3D) ছবি দেখানো হয় যা বাস্তবের মতো অনুভূতি প্রদান করে।"},
+  {q:"ক্রায়োসার্জারিতে ব্যবহৃত প্রধান উপাদান কোনটি? [য. বো. ২০১৯]",opts:["অক্সিজেন","নাইট্রোজেন","হাইড্রোজেন","মিথেন"],ans:1,exp:"ক্রায়োসার্জারিতে তরল নাইট্রোজেন (Liquid Nitrogen) প্রধান উপাদান হিসেবে ব্যবহৃত হয়। এটি -১৯৬°C তাপমাত্রায় রোগাক্রান্ত কোষ ধ্বংস করে।"},
+  {q:"'Cryo' শব্দের অর্থ কী?",opts:["খুবই গরম","চিকিৎসা","অসুস্থতা","বরফের মতো ঠান্ডা"],ans:3,exp:"'Cryo' শব্দটি গ্রীক ভাষা থেকে এসেছে যার অর্থ 'বরফের মতো ঠান্ডা' (Icy Cold)। এই শীতলতাই ক্রায়োসার্জারির মূল নীতি।"},
+  {q:"কোনো ব্যক্তি বা প্রতিষ্ঠানের কাজ তৃতীয় পক্ষ দিয়ে করিয়ে নেওয়াকে কী বলে?",opts:["ফ্রিল্যান্সিং","আউটসোর্সিং","ই-কমার্স","টেলিমেডিসিন"],ans:1,exp:"আউটসোর্সিং হলো নিজের কাজ তৃতীয় পক্ষ দিয়ে করানো। ফ্রিল্যান্সিং হলো স্বাধীনভাবে কাজ করা।"},
+  {q:"বায়োমেট্রিকের শারীরবৃত্তীয় পদ্ধতি কোনটি?",opts:["কণ্ঠস্বর","স্বাক্ষর","আঙুলের ছাপ","টাইপিং ধরন"],ans:2,exp:"আঙুলের ছাপ (Fingerprint) একটি শারীরবৃত্তীয় (Physiological) বায়োমেট্রিক পদ্ধতি। কণ্ঠস্বর, স্বাক্ষর ও টাইপিং ধরন আচরণগত পদ্ধতি।"},
+  {q:"বাস্তব নয় কিন্তু বাস্তবের অনুভূতি প্রদানকারী পরিবেশকে কী বলে?",opts:["অগমেন্টেড রিয়েলিটি","ভার্চুয়াল রিয়েলিটি","আর্টিফিশিয়াল ইন্টেলিজেন্স","সিমুলেশন"],ans:1,exp:"ভার্চুয়াল রিয়েলিটি হলো কম্পিউটার সিমুলেশনের সাহায্যে তৈরি কৃত্রিম ও ত্রিমাত্রিক পরিবেশ যা বাস্তব মনে হয়।"},
+  {q:"ন্যানোটেকনোলজির কার্যকরী আকার পরিসীমা কত?",opts:["১-১০ ন্যানোমিটার","১-১০০ ন্যানোমিটার","১-১০০০ ন্যানোমিটার","১০০-১০০০ ন্যানোমিটার"],ans:1,exp:"ন্যানোটেকনোলজি ১ থেকে ১০০ ন্যানোমিটার পরিসরে কাজ করে। ১ ন্যানোমিটার = ১০⁻⁹ মিটার।"},
+  {q:"জীব সংক্রান্ত তথ্য ব্যবস্থাপনায় কম্পিউটার প্রযুক্তির প্রয়োগ হলো— [চ. বো. ২০১৯]",opts:["বায়োমেট্রিক","জেনেটিক ইঞ্জিনিয়ারিং","বায়োইনফরমেটিক্স","ক্রায়োসার্জারি"],ans:2,exp:"বায়োইনফরমেটিক্স হলো জীববিজ্ঞানের বিশাল ডেটা সংগ্রহ, সংরক্ষণ ও বিশ্লেষণে কম্পিউটার বিজ্ঞানের প্রয়োগ।"},
+  {q:"ইন্টারনেটে সুপ্রতিষ্ঠিত ওয়েবসাইট সেজে প্রতারণার মাধ্যমে তথ্য সংগ্রহকে কী বলে?",opts:["হ্যাকিং","স্পুফিং","ফিশিং","স্প্যামিং"],ans:2,exp:"ফিশিং হলো বিখ্যাত ওয়েবসাইট সাজিয়ে ব্যবহারকারীর পাসওয়ার্ড, ব্যাংক তথ্য চুরি করা। ভিশিং হলো ফোনে ফিশিং।"},
+  {q:"রোবটের অঙ্গ-প্রত্যঙ্গের নড়াচড়ার জন্য বৈদ্যুতিক মটরের সমন্বয়ে তৈরি বিশেষ ব্যবস্থাকে কী বলে? [মা. বো. ২০১৮]",opts:["সেন্সর","অ্যাকচুয়েটর","প্রসেসর","কন্ট্রোলার"],ans:1,exp:"অ্যাকচুয়েটর হলো রোবটের অঙ্গ-প্রত্যঙ্গ নাড়ানোর জন্য ব্যবহৃত বৈদ্যুতিক মটর সমন্বিত বিশেষ ব্যবস্থা।"},
+  {q:"কম্পিউটার সিমুলেশন প্রয়োগের ক্ষেত্র কোনটি? [চ. বো. ২০১৭]",opts:["ক্রায়োসার্জারি","ভার্চুয়াল রিয়েলিটি","ইন্টারনেট","ভিডিও কনফারেন্সিং"],ans:1,exp:"ভার্চুয়াল রিয়েলিটি কম্পিউটার সিমুলেশন ব্যবহার করে কৃত্রিম পরিবেশ তৈরি করে।"},
+  {q:"মেশিন লার্নিং কোনটির শাখা?",opts:["রোবটিক্স","ভার্চুয়াল রিয়েলিটি","কৃত্রিম বুদ্ধিমত্তা","বায়োইনফরমেটিক্স"],ans:2,exp:"মেশিন লার্নিং হলো কৃত্রিম বুদ্ধিমত্তার (AI) একটি শাখা যেখানে মেশিনকে প্রশিক্ষণ দেওয়া হয় এবং মেশিন নিজেই শিখতে পারে।"},
+  {q:"RDNA সমৃদ্ধ জীবকোষকে কী বলা হয়?",opts:["DNA","RNA","GMO","PCR"],ans:2,exp:"GMO (Genetically Modified Organism) হলো RDNA (Recombinant DNA) সমৃদ্ধ জীবকোষ। এটি জেনেটিক ইঞ্জিনিয়ারিংয়ের ফল।"},
+  {q:"ভিন্ন ভৌগলিক অবস্থান থেকে অডিও ও ভিডিওর মাধ্যমে সভা পরিচালনাকে কী বলে? [চ. বো. ২০১৭]",opts:["টেলিকনফারেন্সিং","ভিডিও কনফারেন্সিং","টেলিমেডিসিন","ই-লার্নিং"],ans:1,exp:"ভিডিও কনফারেন্সিং হলো অডিও ও ভিডিও উভয়ের মাধ্যমে দূরবর্তী সভা পরিচালনা। শুধু অডিও = টেলিকনফারেন্সিং।"},
+  {q:"বায়োইনফরমেটিক্সে কোন প্রোগ্রামিং ভাষা ব্যবহৃত হয়? [মা. বো. ২০১৯]",opts:["SQL","LISP","C++","PROLOG"],ans:3,exp:"বায়োইনফরমেটিক্সে PROLOG প্রোগ্রামিং ভাষা ব্যবহৃত হয়। এটি একটি লজিক প্রোগ্রামিং ভাষা।"},
+  {q:"HMD-এর পূর্ণ রূপ কী?",opts:["High Memory Display","Head Mounted Display","Hard Media Device","Human Machine Device"],ans:1,exp:"HMD = Head Mounted Display। ভার্চুয়াল রিয়েলিটিতে ব্যবহৃত বিশেষ চশমা বা হেলমেট।"},
+  {q:"ই-কমার্স কী? [কু. বোর্ড ২০১৭]",opts:["ইলেকট্রনিক মেইল","ইন্টারনেটে পণ্য ক্রয়-বিক্রয়","ডিজিটাল শিক্ষা","অফিস অটোমেশন"],ans:1,exp:"ই-কমার্স হলো ইন্টারনেট বা নেটওয়ার্কের মাধ্যমে পণ্য বা সেবা ক্রয়-বিক্রয় বা লেনদেনের ব্যবসায়িক কার্যক্রম।"},
+  {q:"কৃত্রিম নিউরনগুলোকে বিভিন্ন স্তরে সাজিয়ে তৈরি নেটওয়ার্ককে কী বলে? [ম. বোর্ড ২০২৪]",opts:["ইন্টারনেট","নিউরাল নেটওয়ার্ক","ডিপ লার্নিং","মেশিন লার্নিং"],ans:1,exp:"নিউরাল নেটওয়ার্ক হলো কৃত্রিম নিউরনগুলোকে বিভিন্ন স্তরে সাজিয়ে যোগাযোগ স্থাপন করে তৈরি নেটওয়ার্ক।"},
+  {q:"কোনো ব্যক্তির সাহিত্যকর্ম নিজের নামে প্রকাশ করাকে কী বলে? [য. বোর্ড ২০১৯]",opts:["হ্যাকিং","ফিশিং","প্লেজিয়ারিজম","সাইবার ক্রাইম"],ans:2,exp:"প্লেজিয়ারিজম হলো অন্যের সাহিত্য, গবেষণা কর্ম নকল করে নিজের নামে প্রকাশ করা। কেয়ার মতো কাজ করা!"},
+  {q:"মহাকাশ অভিযানে পৃথিবী থেকে কমপক্ষে কত কিলোমিটার উপরে যেতে হয়? [ব. বোর্ড ২০২৪]",opts:["৫০ কিলোমিটার","১০০ কিলোমিটার","২০০ কিলোমিটার","৫০০ কিলোমিটার"],ans:1,exp:"মহাকাশ অভিযানে পৃথিবীপৃষ্ঠ থেকে কমপক্ষে ১০০ কিলোমিটার উপরে বায়ুমণ্ডলের বাইরে যেতে হয়।"},
+  {q:"বায়োমেট্রিকের বৈশিষ্ট্য কোনটি?",opts:["তথ্য সংরক্ষণ","ব্যক্তির অনন্য পরিচিতি নির্ণয়","ডেটা প্রেরণ","ইন্টারনেট সংযোগ"],ans:1,exp:"বায়োমেট্রিক প্রযুক্তি ব্যক্তির শারীরবৃত্তীয় বা আচরণগত বৈশিষ্ট্য ব্যবহার করে তাকে অনন্যভাবে চিহ্নিত করে।"},
+  {q:"CAD-এর পূর্ণ রূপ কী? [ঢা. বোর্ড ২০২৩]",opts:["Computer Aided Drawing","Computer Aided Design","Computer Aided Development","Computer Aided Device"],ans:1,exp:"CAD = Computer Aided Design। একটি ডিজাইন তৈরি, পরিবর্তন, বিশ্লেষণ বা অপ্টিমাইজেশনে কম্পিউটারের ব্যবহার।"},
+  {q:"স্বাধীনভাবে নিজের দক্ষতার ভিত্তিতে ICT-র মাধ্যমে কাজ করাকে কী বলে?",opts:["আউটসোর্সিং","ই-কমার্স","ফ্রিল্যান্সিং","অফিস অটোমেশন"],ans:2,exp:"ফ্রিল্যান্সিং = স্বাধীনভাবে নিজের দক্ষতার ভিত্তিতে ICT-র মাধ্যমে কাজ করা। আউটসোর্সিং = তৃতীয় পক্ষ দিয়ে কাজ করানো।"}
+];
+
+let mcqCur=0,mcqScore=0,mcqAnswered=false;
+
+function loadMcq(){
+  mcqAnswered=false;
+  const q=mcqs[mcqCur];
+  document.getElementById('mcqN').textContent=mcqCur+1;
+  document.getElementById('mcqPf').style.width=((mcqCur/25)*100)+'%';
+  document.getElementById('mcqQ').textContent=q.q;
+  document.getElementById('mcqFb').className='mcq-fb';
+  document.getElementById('mcqNext').style.display='none';
+  document.getElementById('mcqRst').style.display='none';
+  document.getElementById('mcqRes').textContent='';
+  const c=document.getElementById('mcqOpts');
+  c.innerHTML='';
+  q.opts.forEach((o,i)=>{
+    const d=document.createElement('div');
+    d.className='mcq-o';
+    d.innerHTML=`<span class="ol">${['ক','খ','গ','ঘ'][i]}</span>${o}`;
+    d.onclick=()=>selectMcq(i,d);
+    c.appendChild(d);
+  });
+}
+
+function selectMcq(idx,el){
+  if(mcqAnswered) return;
+  mcqAnswered=true;
+  const q=mcqs[mcqCur];
+  document.querySelectorAll('.mcq-o').forEach(o=>o.classList.add('disabled'));
+  document.querySelectorAll('.mcq-o')[q.ans].classList.add('correct');
+  const fb=document.getElementById('mcqFb');
+  if(idx===q.ans){
+    mcqScore++;
+    document.getElementById('mcqScore').textContent=mcqScore;
+    el.classList.add('correct');
+    fb.className='mcq-fb show fb-c';
+    fb.textContent='✓ সঠিক! '+q.exp;
+  } else {
+    el.classList.add('wrong');
+    fb.className='mcq-fb show fb-w';
+    fb.textContent='✗ ভুল। '+q.exp;
+  }
+  if(mcqCur<24) document.getElementById('mcqNext').style.display='inline-block';
+  else showMcqResult();
+}
+
+function nextMcq(){mcqCur++;loadMcq();}
+
+function showMcqResult(){
+  const pct=Math.round((mcqScore/25)*100);
+  const msg=pct>=80?'🎉 অসাধারণ! তুমি প্রস্তুত!':pct>=60?'👍 ভালো! আরেকটু পড়ো।':'📖 আরও পড়তে হবে!';
+  document.getElementById('mcqRes').textContent=`মোট: ${mcqScore}/২৫ (${pct}%) — ${msg}`;
+  document.getElementById('mcqRst').style.display='inline-block';
+  document.getElementById('mcqPf').style.width='100%';
+}
+
+function restartMcq(){mcqCur=0;mcqScore=0;document.getElementById('mcqScore').textContent='০';loadMcq();}
+
+// Sidebar toggle
+function toggleSidebar(){document.getElementById('sidebar').classList.toggle('open');}
+
+// Scroll progress + active nav
+const sTop=document.getElementById('sTop');
+const pmFill=document.getElementById('pmFill');
+const pctText=document.getElementById('pctText');
+
+window.addEventListener('scroll',()=>{
+  const s=window.scrollY;
+  const t=document.documentElement.scrollHeight-window.innerHeight;
+  const p=t>0?Math.round((s/t)*100):0;
+  pmFill.style.width=p+'%';
+  pctText.textContent=p+'%';
+  sTop.classList.toggle('show',s>300);
+  // active nav
+  document.querySelectorAll('.sec').forEach(sec=>{
+    const rect=sec.getBoundingClientRect();
+    if(rect.top<=60&&rect.bottom>60){
+      document.querySelectorAll('.ni').forEach(ni=>ni.classList.remove('active'));
+      const id=sec.id;
+      const link=document.querySelector(`.ni[href="#${id}"]`);
+      if(link){
+        link.classList.add('active');
+        document.getElementById('curSec').textContent=link.textContent.trim();
+      }
+    }
+  });
+},{passive:true});
+
+// Intersection Observer for fade-in
+const obs=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});
+},{threshold:0.1});
+document.querySelectorAll('.fade-in').forEach(el=>obs.observe(el));
+
+// 3D card effect
+document.querySelectorAll('.card').forEach(card=>{
+  card.addEventListener('mousemove',e=>{
+    const r=card.getBoundingClientRect();
+    const x=(e.clientX-r.left)/r.width-0.5;
+    const y=(e.clientY-r.top)/r.height-0.5;
+    card.style.transform=`translateY(-4px) rotateX(${-y*5}deg) rotateY(${x*5}deg)`;
+  });
+  card.addEventListener('mouseleave',()=>{card.style.transform='';});
+});
+
+// Init
+loadMcq();
+</script>
+</body>
+</html>
